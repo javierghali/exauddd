@@ -13,6 +13,12 @@ create table if not exists public.vaults (
 
 alter table public.vaults enable row level security;
 
+-- Required when new-table privileges are not automatically exposed to Data API roles.
+-- RLS still limits every row to auth.uid() = user_id.
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on table public.vaults to authenticated;
+revoke all on table public.vaults from anon;
+
 drop policy if exists "vault anon read" on public.vaults;
 drop policy if exists "vault anon insert" on public.vaults;
 drop policy if exists "vault anon update" on public.vaults;
