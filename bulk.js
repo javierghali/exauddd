@@ -4,6 +4,52 @@
   const MAX_BULK = 1000;
   const selectedIds = new Set();
   const originalRender = render;
+  let migrationSavePending = false;
+
+  function normalizeFacelockStatus(){
+    let changed = false;
+    if(Array.isArray(vault?.accounts)){
+      vault.accounts.forEach(a => {
+        if(a.status === "Check"){
+          a.status = "Facelock";
+          a.updatedAt = new Date().toISOString();
+          changed = true;
+        }
+      });
+    }
+
+    // Patch the static controls created by index.html.
+    [document.getElementById("statusFilter"), document.getElementById("status")].forEach(select => {
+      if(!select) return;
+      [...select.options].forEach(option => {
+        if(option.value === "Check" || option.textContent.trim() === "Check"){
+          option.value = "Facelock";
+          option.textContent = "Facelock";
+        }
+      });
+    });
+
+    const stat = document.getElementById("statCheck");
+    if(stat){
+      const label = stat.parentElement?.querySelector("span");
+      const help = stat.parentElement?.querySelector("small");
+      if(label) label.textContent = "Facelock";
+      if(help) help.textContent = "Akun facelock";
+    }
+
+    if(changed && masterKey && !migrationSavePending){
+      migrationSavePending = true;
+      Promise.resolve(saveLocalAndMaybeRemote())
+        .then(() => toast("Status Check lama otomatis diubah menjadi Facelock."))
+        .catch(console.error)
+        .finally(() => { migrationSavePending = false; });
+    }
+  }
+
+  function refreshFacelockStat(){
+    const stat = document.getElementById("statCheck");
+    if(stat) stat.textContent = vault.accounts.filter(a => a.status === "Facelock").length;
+  }
 
   function pruneSelection(){
     const existing = new Set(vault.accounts.map(a => a.id));
@@ -29,7 +75,7 @@
       <select id="bulkStatus" aria-label="Bulk status">
         <option value="">Set Status...</option>
         <option value="Active">Active</option>
-        <option value="Check">Check</option>
+        <option value="Facelock">Facelock</option>
         <option value="Inactive">Inactive</option>
         <option value="Banned">Banned</option>
       </select>
@@ -152,7 +198,7 @@
     const status = $("bulkStatus")?.value;
     const ids = [...selectedIds].slice(0, MAX_BULK);
     if(!status || !ids.length) return;
-    const valid = new Set(["Active","Check","Inactive","Banned"]);
+    const valid = new Set(["Active","Facelock","Inactive","Banned"]);
     if(!valid.has(status)) return;
 
     const count = ids.length;
@@ -185,7 +231,10 @@
   }
 
   render = function(){
+    normalizeFacelockStatus();
     originalRender();
+    normalizeFacelockStatus();
+    refreshFacelockStat();
     ensureBulkUi();
     pruneSelection();
     const list = filtered();
@@ -194,6 +243,7 @@
     updateBulkControls();
   };
 
+  normalizeFacelockStatus();
   ensureBulkUi();
   render();
 })();
