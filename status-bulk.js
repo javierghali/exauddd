@@ -48,6 +48,7 @@
   loadModule('./navigation.js','navigationModule');
   loadModule('./bulk-group.js','bulkGroupModule');
   loadModule('./paste-export.js','pasteExportModule');
+  loadModule('./bulk-username.js','bulkUsernameModule');
 
   const originalRender=render;
   render=function(){originalRender();bind();cleanupBackupUi()};
