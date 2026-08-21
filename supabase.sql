@@ -1,36 +1,41 @@
-
--- Account Vault V2 - Supabase table
--- IMPORTANT:
--- This table stores only encrypted vault payloads (ciphertext).
--- Do not add plaintext username/password/cookie columns.
+-- Silverback Vault V3 - Supabase Auth + RLS
+-- Stores ciphertext only. Do not add plaintext credential columns.
 
 create table if not exists public.vaults (
-  vault_id text primary key,
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  vault_id text not null,
   payload jsonb not null,
-  updated_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, vault_id)
 );
 
 alter table public.vaults enable row level security;
 
--- V2 simple personal deployment policy:
--- Allows access through the public anon key to rows.
--- Use only in a private project dedicated to this vault.
--- For stronger protection, add Supabase Auth in V3 and bind each row to auth.uid().
-create policy "vault anon read"
-on public.vaults
-for select
-to anon
-using (true);
+drop policy if exists "vault anon read" on public.vaults;
+drop policy if exists "vault anon insert" on public.vaults;
+drop policy if exists "vault anon update" on public.vaults;
+drop policy if exists "Users can read own vaults" on public.vaults;
+drop policy if exists "Users can insert own vaults" on public.vaults;
+drop policy if exists "Users can update own vaults" on public.vaults;
+drop policy if exists "Users can delete own vaults" on public.vaults;
 
-create policy "vault anon insert"
-on public.vaults
-for insert
-to anon
-with check (true);
+create policy "Users can read own vaults"
+on public.vaults for select to authenticated
+using (auth.uid() = user_id);
 
-create policy "vault anon update"
-on public.vaults
-for update
-to anon
-using (true)
-with check (true);
+create policy "Users can insert own vaults"
+on public.vaults for insert to authenticated
+with check (auth.uid() = user_id);
+
+create policy "Users can update own vaults"
+on public.vaults for update to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+create policy "Users can delete own vaults"
+on public.vaults for delete to authenticated
+using (auth.uid() = user_id);
+
+create index if not exists vaults_user_id_idx on public.vaults(user_id);
