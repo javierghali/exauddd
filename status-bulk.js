@@ -47,6 +47,7 @@
   loadModule('./bulk-delete.js','bulkDeleteModule');
   loadModule('./navigation.js','navigationModule');
   loadModule('./bulk-group.js','bulkGroupModule');
+  loadModule('./paste-export.js','pasteExportModule');
 
   const originalRender=render;
   render=function(){originalRender();bind();cleanupBackupUi()};
