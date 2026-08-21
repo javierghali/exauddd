@@ -43,7 +43,6 @@
         return;
       }
 
-      // If the same username appears again in the same file, keep the latest row.
       if(seenUsers.has(ukey)){
         const prevIndex=seenUsers.get(ukey);
         const old=rows[prevIndex];
@@ -51,7 +50,6 @@
         rows[prevIndex]=null;
       }
 
-      // Never allow one cookie/session to be attached to two different usernames in one import.
       if(seenCookies.has(ckey) && seenCookies.get(ckey)!==ukey){
         duplicateInFile.push(index+1);
         return;
@@ -117,7 +115,6 @@
         const old=existingByUser.get(ukey);
         const cookieOwner=existingByCookie.get(ckey);
 
-        // A cookie already belonging to a different username is treated as a conflict and skipped.
         if(cookieOwner && cookieOwner!==old && normUser(cookieOwner.username)!==ukey){
           cookieConflicts++;
           continue;
@@ -161,4 +158,13 @@
       e.target.value="";
     }
   };
+})();
+
+// Load the optional group manager without changing the main HTML bundle.
+(() => {
+  if(document.querySelector('script[data-silverback-groups]')) return;
+  const s=document.createElement('script');
+  s.src='./groups.js';
+  s.dataset.silverbackGroups='1';
+  document.body.appendChild(s);
 })();
