@@ -1,5 +1,6 @@
 // Silverback Vault V3 - extended import support
 // Supports encrypted Silverback JSON backups and text account lists.
+// TXT importer prevents duplicate usernames, duplicate cookies/sessions, and exact duplicate rows.
 
 (function(){
   const input=document.getElementById("importInput");
@@ -7,9 +8,17 @@
 
   input.accept=".json,.txt,application/json,text/plain";
 
+  const normUser=v=>String(v||"").trim().toLowerCase();
+  const normCookie=v=>String(v||"").trim();
+  const exactKey=(u,p,c)=>`${normUser(u)}\u0000${String(p||"")}\u0000${normCookie(c)}`;
+
   function parseAccountText(text){
     const rows=[];
     const rejected=[];
+    const duplicateInFile=[];
+    const seenExact=new Set();
+    const seenUsers=new Map();
+    const seenCookies=new Map();
     const lines=text.replace(/^\uFEFF/,"").split(/\r?\n/);
 
     lines.forEach((raw,index)=>{
@@ -25,11 +34,39 @@
       const cookie=line.slice(second+1).trim();
       if(!username||!cookie){rejected.push(index+1);return;}
 
+      const ukey=normUser(username);
+      const ckey=normCookie(cookie);
+      const ekey=exactKey(username,password,cookie);
+
+      if(seenExact.has(ekey)){
+        duplicateInFile.push(index+1);
+        return;
+      }
+
+      // If the same username appears again in the same file, keep the latest row.
+      if(seenUsers.has(ukey)){
+        const prevIndex=seenUsers.get(ukey);
+        const old=rows[prevIndex];
+        if(old) seenExact.delete(exactKey(old.username,old.password,old.cookie));
+        rows[prevIndex]=null;
+      }
+
+      // Never allow one cookie/session to be attached to two different usernames in one import.
+      if(seenCookies.has(ckey) && seenCookies.get(ckey)!==ukey){
+        duplicateInFile.push(index+1);
+        return;
+      }
+
       const now=new Date().toISOString();
-      rows.push({id:crypto.randomUUID(),username,password,cookie,status:"Active",group:"Imported",notes:"Imported from TXT",createdAt:now,updatedAt:now});
+      const row={id:crypto.randomUUID(),username,password,cookie,status:"Active",group:"Imported",notes:"Imported from TXT",createdAt:now,updatedAt:now};
+      const pos=rows.length;
+      rows.push(row);
+      seenUsers.set(ukey,pos);
+      seenCookies.set(ckey,ukey);
+      seenExact.add(ekey);
     });
 
-    return {rows,rejected};
+    return {rows:rows.filter(Boolean),rejected,duplicateInFile};
   }
 
   input.onchange=async e=>{
@@ -50,32 +87,73 @@
       }
 
       if(!masterKey)throw new Error("Unlock vault sebelum import TXT");
-      const {rows,rejected}=parseAccountText(text);
+      const {rows,rejected,duplicateInFile}=parseAccountText(text);
       if(!rows.length)throw new Error("Tidak ada baris username:password:cookie yang terbaca");
 
-      const existing=new Map(vault.accounts.map(a=>[String(a.username||"").toLowerCase(),a]));
-      let added=0,updated=0;
+      const existingByUser=new Map();
+      const existingByCookie=new Map();
+      const existingExact=new Set();
+
+      vault.accounts.forEach(a=>{
+        const ukey=normUser(a.username);
+        const ckey=normCookie(a.cookie);
+        if(ukey&&!existingByUser.has(ukey))existingByUser.set(ukey,a);
+        if(ckey&&!existingByCookie.has(ckey))existingByCookie.set(ckey,a);
+        if(ukey&&ckey)existingExact.add(exactKey(a.username,a.password,a.cookie));
+      });
+
+      let added=0,updated=0,skippedExact=0,cookieConflicts=0;
 
       for(const row of rows){
-        const key=row.username.toLowerCase();
-        const old=existing.get(key);
+        const ukey=normUser(row.username);
+        const ckey=normCookie(row.cookie);
+        const ekey=exactKey(row.username,row.password,row.cookie);
+
+        if(existingExact.has(ekey)){
+          skippedExact++;
+          continue;
+        }
+
+        const old=existingByUser.get(ukey);
+        const cookieOwner=existingByCookie.get(ckey);
+
+        // A cookie already belonging to a different username is treated as a conflict and skipped.
+        if(cookieOwner && cookieOwner!==old && normUser(cookieOwner.username)!==ukey){
+          cookieConflicts++;
+          continue;
+        }
+
         if(old){
+          const oldCookie=normCookie(old.cookie);
+          if(oldCookie && existingByCookie.get(oldCookie)===old) existingByCookie.delete(oldCookie);
+          existingExact.delete(exactKey(old.username,old.password,old.cookie));
+
           old.password=row.password;
           old.cookie=row.cookie;
           old.updatedAt=new Date().toISOString();
           if(!old.group)old.group="Imported";
+
+          existingByCookie.set(ckey,old);
+          existingExact.add(ekey);
           updated++;
         }else{
           vault.accounts.push(row);
-          existing.set(key,row);
+          existingByUser.set(ukey,row);
+          existingByCookie.set(ckey,row);
+          existingExact.add(ekey);
           added++;
         }
       }
 
-      await saveLocalAndMaybeRemote();
+      if(added||updated) await saveLocalAndMaybeRemote();
       render();
-      const bad=rejected.length?` • ${rejected.length} baris dilewati`:"";
-      toast(`Import selesai: ${added} baru, ${updated} diperbarui${bad}`);
+
+      const parts=[`${added} baru`,`${updated} diperbarui`];
+      if(skippedExact)parts.push(`${skippedExact} duplikat dilewati`);
+      if(duplicateInFile.length)parts.push(`${duplicateInFile.length} duplikat di file dilewati`);
+      if(cookieConflicts)parts.push(`${cookieConflicts} konflik cookie dilewati`);
+      if(rejected.length)parts.push(`${rejected.length} baris invalid`);
+      toast(`Import selesai: ${parts.join(" • ")}`);
     }catch(err){
       console.error("Import failed",err);
       toast("Import gagal: "+String(err.message||err).slice(0,120));
