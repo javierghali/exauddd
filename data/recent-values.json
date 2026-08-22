@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-08-23T00:00:00Z",
-  "note": "Recent event marker only. StarPets = best listed USD price for the tracked regular/base page. AMVGG = value shown on the tracked default pet page.",
+  "updated_at": "2026-08-22T22:09:00Z",
+  "note": "Recent event marker only. StarPets = visible USD listing/best price for the tracked regular/base pet. AMVGG = value shown on the tracked default pet page. Manual snapshot values can be replaced by the scheduled refresh when a source page is readable.",
   "weeks": [
     {
       "label": "Current Week",
@@ -22,17 +22,44 @@
       "items": [
         {
           "name": "Chihuahua",
-          "starpets": {"value": 1.60, "url": "https://starpets.gg/adopt-me/shop/pet/chihuahua/1741997", "status": "seed"},
+          "starpets": {
+            "value": 0.37,
+            "previous_value": 1.60,
+            "delta": -1.23,
+            "delta_percent": -76.88,
+            "url": "https://starpets.gg/adopt-me/shop/pet/chihuahua/1741997",
+            "status": "snapshot",
+            "snapshot_at": "2026-08-22T22:09:00Z",
+            "snapshot_note": "Visible price from user-provided StarPets screenshot"
+          },
           "amvgg": {"value": null, "url": "https://amvgg.com/pet/Chihuahua", "status": "pending"}
         },
         {
           "name": "Silverback Gorilla",
-          "starpets": {"value": 3.20, "url": "https://starpets.gg/adopt-me/shop/pet/silverback_gorilla/1734037", "status": "seed"},
+          "starpets": {
+            "value": 10.15,
+            "previous_value": 3.20,
+            "delta": 6.95,
+            "delta_percent": 217.19,
+            "url": "https://starpets.gg/adopt-me/shop/pet/silverback_gorilla/1734037",
+            "status": "snapshot",
+            "snapshot_at": "2026-08-22T22:09:00Z",
+            "snapshot_note": "Visible price from user-provided StarPets screenshot"
+          },
           "amvgg": {"value": 0.1575, "url": "https://amvgg.com/pet/Silverback_Gorilla", "status": "seed"}
         },
         {
           "name": "Dragonfruit Fox",
-          "starpets": {"value": 1.28, "url": "https://starpets.gg/adopt-me/shop/pet/dragonfruit_fox/1688234", "status": "seed"},
+          "starpets": {
+            "value": 0.84,
+            "previous_value": 1.28,
+            "delta": -0.44,
+            "delta_percent": -34.38,
+            "url": "https://starpets.gg/adopt-me/shop/pet/dragonfruit_fox/1688234",
+            "status": "snapshot",
+            "snapshot_at": "2026-08-22T22:09:00Z",
+            "snapshot_note": "Visible price from user-provided StarPets screenshot"
+          },
           "amvgg": {"value": 0.0185, "url": "https://amvgg.com/pet/Dragonfruit_Fox", "status": "seed"}
         },
         {
