@@ -44,6 +44,7 @@
   }
 
   cleanupBackupUi();
+  loadModule('./config-defaults.js','configDefaultsModule');
   loadModule('./bulk-delete.js','bulkDeleteModule');
   loadModule('./navigation.js','navigationModule');
   loadModule('./bulk-group.js','bulkGroupModule');
