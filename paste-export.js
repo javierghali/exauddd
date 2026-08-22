@@ -1,4 +1,4 @@
-// Silverback Vault V3 - Paste UPC + Export UPC
+// Silverback Vault V3 - Paste UPC + Export UPC + Export Username
 // UPC format: username;password;cookie (one account per line).
 (() => {
   const normUser=v=>String(v||'').trim().toLowerCase();
@@ -85,6 +85,23 @@
     return parts.join(' • ');
   }
 
+  function scopeAccounts(name){
+    const scope=document.querySelector(`input[name="${name}"]:checked`)?.value||'all';
+    if(scope==='selected'){
+      const ids=selectedAccountIds();
+      return vault.accounts.filter(a=>ids.has(a.id));
+    }
+    return [...vault.accounts];
+  }
+
+  function saveTextFile(text,filename){
+    const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+
   function ensureDialogs(){
     if(!document.getElementById('pasteUpcDialog')){
       const d=document.createElement('dialog'); d.id='pasteUpcDialog';
@@ -119,6 +136,22 @@
       d.querySelector('#downloadExportUpc').onclick=downloadUPC;
     }
 
+    if(!document.getElementById('exportUsernameDialog')){
+      const d=document.createElement('dialog'); d.id='exportUsernameDialog';
+      d.innerHTML=`<div class="modal paste-upc-modal">
+        <div class="modal-head"><div><div class="eyebrow">EXPORT</div><h2>Export Username</h2></div><button id="closeExportUsername" type="button" class="icon-btn">×</button></div>
+        <div class="notice">Hasil TXT hanya berisi username, satu username per baris. Password dan cookie tidak ikut diexport.</div>
+        <div class="export-scope-row"><label><input type="radio" name="usernameExportScope" value="all" checked> All accounts</label><label><input type="radio" name="usernameExportScope" value="selected"> Selected items</label></div>
+        <div id="exportUsernameCount" class="notice"></div>
+        <div class="modal-actions"><span class="spacer"></span><button id="cancelExportUsername" type="button" class="secondary">Cancel</button><button id="downloadExportUsername" type="button" class="primary">Export Username TXT</button></div>
+      </div>`;
+      document.body.appendChild(d);
+      d.querySelector('#closeExportUsername').onclick=()=>d.close();
+      d.querySelector('#cancelExportUsername').onclick=()=>d.close();
+      d.addEventListener('change',refreshUsernameExportCount);
+      d.querySelector('#downloadExportUsername').onclick=downloadUsernames;
+    }
+
     if(!document.getElementById('pasteExportStyles')){
       const s=document.createElement('style'); s.id='pasteExportStyles'; s.textContent=`
         .paste-upc-modal{width:min(760px,calc(100vw - 24px))}.paste-upc-modal textarea{width:100%;resize:vertical;min-height:260px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
@@ -127,18 +160,18 @@
     }
   }
 
-  function exportAccountsForScope(){
-    const scope=document.querySelector('input[name="exportScope"]:checked')?.value||'all';
-    if(scope==='selected'){
-      const ids=selectedAccountIds();
-      return vault.accounts.filter(a=>ids.has(a.id));
-    }
-    return [...vault.accounts];
-  }
+  function exportAccountsForScope(){return scopeAccounts('exportScope')}
+  function exportUsernameAccountsForScope(){return scopeAccounts('usernameExportScope')}
 
   function refreshExportCount(){
     const el=document.getElementById('exportUpcCount'); if(!el)return;
     const list=exportAccountsForScope(); el.textContent=`${list.length} akun akan diexport.`;
+  }
+
+  function refreshUsernameExportCount(){
+    const el=document.getElementById('exportUsernameCount'); if(!el)return;
+    const list=exportUsernameAccountsForScope().filter(a=>String(a.username||'').trim());
+    el.textContent=`${list.length} username akan diexport.`;
   }
 
   function downloadUPC(){
@@ -146,11 +179,19 @@
     const list=exportAccountsForScope();
     if(!list.length){toast('Tidak ada akun untuk diexport.');return}
     const text=list.map(a=>`${String(a.username||'')};${String(a.password||'')};${String(a.cookie||'')}`).join('\n');
-    const blob=new Blob([text],{type:'text/plain;charset=utf-8'}); const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url;
-    const stamp=new Date().toISOString().replace(/[:.]/g,'-'); a.download=`silverback-upc-${list.length}-${stamp}.txt`;
-    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1500);
+    const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+    saveTextFile(text,`silverback-upc-${list.length}-${stamp}.txt`);
     toast(`${list.length} akun diexport.`);
+  }
+
+  function downloadUsernames(){
+    if(!masterKey){toast('Unlock vault dulu.');return}
+    const list=exportUsernameAccountsForScope();
+    const usernames=[...new Set(list.map(a=>String(a.username||'').trim()).filter(Boolean))];
+    if(!usernames.length){toast('Tidak ada username untuk diexport.');return}
+    const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+    saveTextFile(usernames.join('\n'),`silverback-usernames-${usernames.length}-${stamp}.txt`);
+    toast(`${usernames.length} username diexport.`);
   }
 
   function ensureButtons(){
@@ -159,7 +200,11 @@
     if(quick&&!document.getElementById('pasteUpcBtn')){
       const paste=document.createElement('button'); paste.id='pasteUpcBtn'; paste.innerHTML='⌨ <span>Paste UPC</span>'; paste.onclick=()=>{if(!masterKey){toast('Unlock vault dulu.');return}document.getElementById('pasteUpcDialog').showModal();setTimeout(()=>document.getElementById('pasteUpcText')?.focus(),50)};
       const exp=document.createElement('button'); exp.id='exportUpcBtn'; exp.innerHTML='⇩ <span>Export UPC</span>'; exp.onclick=()=>{if(!masterKey){toast('Unlock vault dulu.');return}refreshExportCount();document.getElementById('exportUpcDialog').showModal()};
-      const sync=document.getElementById('quickSyncBtn'); quick.insertBefore(paste,sync||null); quick.insertBefore(exp,sync||null);
+      const expUser=document.createElement('button'); expUser.id='exportUsernameBtn'; expUser.innerHTML='⇩ <span>Export Username</span>'; expUser.onclick=()=>{if(!masterKey){toast('Unlock vault dulu.');return}refreshUsernameExportCount();document.getElementById('exportUsernameDialog').showModal()};
+      const sync=document.getElementById('quickSyncBtn'); quick.insertBefore(paste,sync||null); quick.insertBefore(exp,sync||null); quick.insertBefore(expUser,sync||null);
+    }else if(quick&&!document.getElementById('exportUsernameBtn')){
+      const expUser=document.createElement('button'); expUser.id='exportUsernameBtn'; expUser.innerHTML='⇩ <span>Export Username</span>'; expUser.onclick=()=>{if(!masterKey){toast('Unlock vault dulu.');return}refreshUsernameExportCount();document.getElementById('exportUsernameDialog').showModal()};
+      const sync=document.getElementById('quickSyncBtn'); quick.insertBefore(expUser,sync||null);
     }
   }
 
