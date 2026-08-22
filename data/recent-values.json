@@ -1,0 +1,46 @@
+{
+  "updated_at": "2026-08-23T00:00:00Z",
+  "note": "Recent event marker only. StarPets = best listed USD price for the tracked regular/base page. AMVGG = value shown on the tracked default pet page.",
+  "weeks": [
+    {
+      "label": "Current Week",
+      "items": [
+        {
+          "name": "Kiwi Kiwi",
+          "starpets": {"value": null, "url": null, "status": "waiting_for_listing"},
+          "amvgg": {"value": null, "url": null, "status": "waiting_for_listing"}
+        },
+        {
+          "name": "Strawberry Tortoise",
+          "starpets": {"value": null, "url": null, "status": "waiting_for_listing"},
+          "amvgg": {"value": null, "url": null, "status": "waiting_for_listing"}
+        }
+      ]
+    },
+    {
+      "label": "Previous Week",
+      "items": [
+        {
+          "name": "Chihuahua",
+          "starpets": {"value": 1.60, "url": "https://starpets.gg/adopt-me/shop/pet/chihuahua/1741997", "status": "seed"},
+          "amvgg": {"value": null, "url": "https://amvgg.com/pet/Chihuahua", "status": "pending"}
+        },
+        {
+          "name": "Silverback Gorilla",
+          "starpets": {"value": 3.20, "url": "https://starpets.gg/adopt-me/shop/pet/silverback_gorilla/1734037", "status": "seed"},
+          "amvgg": {"value": 0.1575, "url": "https://amvgg.com/pet/Silverback_Gorilla", "status": "seed"}
+        },
+        {
+          "name": "Dragonfruit Fox",
+          "starpets": {"value": 1.28, "url": "https://starpets.gg/adopt-me/shop/pet/dragonfruit_fox/1688234", "status": "seed"},
+          "amvgg": {"value": 0.0185, "url": "https://amvgg.com/pet/Dragonfruit_Fox", "status": "seed"}
+        },
+        {
+          "name": "Sushi Penguin",
+          "starpets": {"value": 0.97, "url": "https://starpets.gg/adopt-me/shop/pet/sushi_penguin/1737416", "status": "seed"},
+          "amvgg": {"value": 0.009, "url": "https://amvgg.com/pet/Sushi_Penguin", "status": "seed"}
+        }
+      ]
+    }
+  ]
+}
