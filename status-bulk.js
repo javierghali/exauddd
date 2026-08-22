@@ -51,7 +51,8 @@
   loadModule('./bulk-group.js','bulkGroupModule');
   loadModule('./paste-export.js','pasteExportModule');
   loadModule('./bulk-username.js','bulkUsernameModule');
-  loadModule('./owner-splitter.js','ownerSplitterModule');
+  loadModule('./owners-splitter.js','ownersSplitterModule');
+  loadModule('./value-tracker.js','valueTrackerModule');
 
   const originalRender=render;
   render=function(){originalRender();bind();cleanupBackupUi()};
