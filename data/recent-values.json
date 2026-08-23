@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-22T22:09:00Z",
+  "updated_at": "2026-08-23T01:58:42.075997+00:00",
   "note": "Recent event marker only. StarPets = visible USD listing/best price for the tracked regular/base pet. AMVGG = value shown on the tracked default pet page. Manual snapshot values can be replaced by the scheduled refresh when a source page is readable.",
   "weeks": [
     {
@@ -7,13 +7,29 @@
       "items": [
         {
           "name": "Kiwi Kiwi",
-          "starpets": {"value": null, "url": null, "status": "waiting_for_listing"},
-          "amvgg": {"value": null, "url": null, "status": "waiting_for_listing"}
+          "starpets": {
+            "value": null,
+            "url": null,
+            "status": "waiting_for_listing"
+          },
+          "amvgg": {
+            "value": null,
+            "url": null,
+            "status": "waiting_for_listing"
+          }
         },
         {
           "name": "Strawberry Tortoise",
-          "starpets": {"value": null, "url": null, "status": "waiting_for_listing"},
-          "amvgg": {"value": null, "url": null, "status": "waiting_for_listing"}
+          "starpets": {
+            "value": null,
+            "url": null,
+            "status": "waiting_for_listing"
+          },
+          "amvgg": {
+            "value": null,
+            "url": null,
+            "status": "waiting_for_listing"
+          }
         }
       ]
     },
@@ -24,29 +40,47 @@
           "name": "Chihuahua",
           "starpets": {
             "value": 0.37,
-            "previous_value": 1.60,
+            "previous_value": 1.6,
             "delta": -1.23,
             "delta_percent": -76.88,
             "url": "https://starpets.gg/adopt-me/shop/pet/chihuahua/1741997",
-            "status": "snapshot",
+            "status": "stale",
             "snapshot_at": "2026-08-22T22:09:00Z",
-            "snapshot_note": "Visible price from user-provided StarPets screenshot"
+            "snapshot_note": "Visible price from user-provided StarPets screenshot",
+            "checked_at": "2026-08-23T01:58:37.767248+00:00",
+            "error": "best price not found"
           },
-          "amvgg": {"value": null, "url": "https://amvgg.com/pet/Chihuahua", "status": "pending"}
+          "amvgg": {
+            "value": 0.0125,
+            "url": "https://amvgg.com/pet/Chihuahua",
+            "status": "ok",
+            "checked_at": "2026-08-23T01:58:38.122589+00:00"
+          }
         },
         {
           "name": "Silverback Gorilla",
           "starpets": {
             "value": 10.15,
-            "previous_value": 3.20,
+            "previous_value": 3.2,
             "delta": 6.95,
             "delta_percent": 217.19,
             "url": "https://starpets.gg/adopt-me/shop/pet/silverback_gorilla/1734037",
-            "status": "snapshot",
+            "status": "stale",
             "snapshot_at": "2026-08-22T22:09:00Z",
-            "snapshot_note": "Visible price from user-provided StarPets screenshot"
+            "snapshot_note": "Visible price from user-provided StarPets screenshot",
+            "checked_at": "2026-08-23T01:58:39.185428+00:00",
+            "error": "best price not found"
           },
-          "amvgg": {"value": 0.1575, "url": "https://amvgg.com/pet/Silverback_Gorilla", "status": "seed"}
+          "amvgg": {
+            "value": 0.215,
+            "url": "https://amvgg.com/pet/Silverback_Gorilla",
+            "status": "ok",
+            "previous_value": 0.1575,
+            "previous_checked_at": null,
+            "delta": 0.0575,
+            "delta_percent": 36.51,
+            "checked_at": "2026-08-23T01:58:39.408008+00:00"
+          }
         },
         {
           "name": "Dragonfruit Fox",
@@ -56,16 +90,38 @@
             "delta": -0.44,
             "delta_percent": -34.38,
             "url": "https://starpets.gg/adopt-me/shop/pet/dragonfruit_fox/1688234",
-            "status": "snapshot",
+            "status": "stale",
             "snapshot_at": "2026-08-22T22:09:00Z",
-            "snapshot_note": "Visible price from user-provided StarPets screenshot"
+            "snapshot_note": "Visible price from user-provided StarPets screenshot",
+            "checked_at": "2026-08-23T01:58:40.475973+00:00",
+            "error": "best price not found"
           },
-          "amvgg": {"value": 0.0185, "url": "https://amvgg.com/pet/Dragonfruit_Fox", "status": "seed"}
+          "amvgg": {
+            "value": 0.021,
+            "url": "https://amvgg.com/pet/Dragonfruit_Fox",
+            "status": "ok",
+            "previous_value": 0.0185,
+            "previous_checked_at": null,
+            "delta": 0.0025,
+            "delta_percent": 13.51,
+            "checked_at": "2026-08-23T01:58:40.779858+00:00"
+          }
         },
         {
           "name": "Sushi Penguin",
-          "starpets": {"value": 0.97, "url": "https://starpets.gg/adopt-me/shop/pet/sushi_penguin/1737416", "status": "seed"},
-          "amvgg": {"value": 0.009, "url": "https://amvgg.com/pet/Sushi_Penguin", "status": "seed"}
+          "starpets": {
+            "value": 0.97,
+            "url": "https://starpets.gg/adopt-me/shop/pet/sushi_penguin/1737416",
+            "status": "stale",
+            "checked_at": "2026-08-23T01:58:41.802516+00:00",
+            "error": "best price not found"
+          },
+          "amvgg": {
+            "value": 0.009,
+            "url": "https://amvgg.com/pet/Sushi_Penguin",
+            "status": "ok",
+            "checked_at": "2026-08-23T01:58:42.075980+00:00"
+          }
         }
       ]
     }
