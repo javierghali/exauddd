@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23T18:47:56.575895+00:00",
+  "updated_at": "2026-08-24T01:56:02.083201+00:00",
   "note": "Recent event marker only. StarPets = visible USD listing/best price for the tracked regular/base pet. AMVGG = value shown on the tracked default pet page. Manual snapshot values can be replaced by the scheduled refresh when a source page is readable.",
   "weeks": [
     {
@@ -47,18 +47,18 @@
             "status": "stale",
             "snapshot_at": "2026-08-22T22:09:00Z",
             "snapshot_note": "Visible price from user-provided StarPets screenshot",
-            "checked_at": "2026-08-23T18:46:58.122196+00:00",
-            "error": "The read operation timed out"
+            "checked_at": "2026-08-24T01:55:57.951216+00:00",
+            "error": "best price not found"
           },
           "amvgg": {
-            "value": 0.0105,
+            "value": 0.009,
             "url": "https://amvgg.com/pet/Chihuahua",
             "status": "ok",
-            "checked_at": "2026-08-23T18:46:58.969638+00:00",
-            "previous_value": 0.0125,
-            "previous_checked_at": "2026-08-23T13:00:05.060870+00:00",
-            "delta": -0.002,
-            "delta_percent": -16.0
+            "checked_at": "2026-08-24T01:55:58.236998+00:00",
+            "previous_value": 0.0105,
+            "previous_checked_at": "2026-08-23T18:46:58.969638+00:00",
+            "delta": -0.0015,
+            "delta_percent": -14.29
           }
         },
         {
@@ -72,8 +72,8 @@
             "status": "stale",
             "snapshot_at": "2026-08-22T22:09:00Z",
             "snapshot_note": "Visible price from user-provided StarPets screenshot",
-            "checked_at": "2026-08-23T18:47:23.996300+00:00",
-            "error": "<urlopen error timed out>"
+            "checked_at": "2026-08-24T01:55:59.261358+00:00",
+            "error": "best price not found"
           },
           "amvgg": {
             "value": 0.175,
@@ -83,7 +83,7 @@
             "previous_checked_at": "2026-08-23T13:00:06.653736+00:00",
             "delta": -0.04,
             "delta_percent": -18.6,
-            "checked_at": "2026-08-23T18:47:24.312255+00:00"
+            "checked_at": "2026-08-24T01:55:59.501789+00:00"
           }
         },
         {
@@ -97,8 +97,8 @@
             "status": "stale",
             "snapshot_at": "2026-08-22T22:09:00Z",
             "snapshot_note": "Visible price from user-provided StarPets screenshot",
-            "checked_at": "2026-08-23T18:47:52.625645+00:00",
-            "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+            "checked_at": "2026-08-24T01:56:00.440657+00:00",
+            "error": "best price not found"
           },
           "amvgg": {
             "value": 0.021,
@@ -108,7 +108,7 @@
             "previous_checked_at": null,
             "delta": 0.0025,
             "delta_percent": 13.51,
-            "checked_at": "2026-08-23T18:47:52.967518+00:00"
+            "checked_at": "2026-08-24T01:56:00.687114+00:00"
           }
         },
         {
@@ -117,14 +117,14 @@
             "value": 0.97,
             "url": "https://starpets.gg/adopt-me/shop/pet/sushi_penguin/1737416",
             "status": "stale",
-            "checked_at": "2026-08-23T18:47:56.246909+00:00",
+            "checked_at": "2026-08-24T01:56:01.730140+00:00",
             "error": "best price not found"
           },
           "amvgg": {
             "value": 0.009,
             "url": "https://amvgg.com/pet/Sushi_Penguin",
             "status": "ok",
-            "checked_at": "2026-08-23T18:47:56.575878+00:00"
+            "checked_at": "2026-08-24T01:56:02.083180+00:00"
           }
         }
       ]
