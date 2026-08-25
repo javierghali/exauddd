@@ -1,11 +1,11 @@
 {
-  "name": "Silverback Vault V3",
-  "short_name": "Silverback",
+  "name": "EXAUDDD Vault V3",
+  "short_name": "EXAUDDD",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b0d10",
-  "theme_color": "#0b0d10",
+  "background_color": "#e8f7ff",
+  "theme_color": "#f4a21b",
   "description": "Encrypted account database dashboard",
   "icons": [
     {
