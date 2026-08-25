@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#111418">
+  <meta name="theme-color" content="#07100a">
   <meta name="description" content="EXAUDDD Vault - encrypted account database">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png">
@@ -14,7 +14,7 @@
 <body>
 <div class="app">
   <aside id="sidebar" class="sidebar">
-    <div class="brand"><div class="brand-logo">☀</div><div><div class="brand-title">EXAUDDD</div><div class="brand-sub">VAULT V3</div></div></div>
+    <div class="brand"><div class="brand-logo">⚔</div><div><div class="brand-title">EXAUDDD</div><div class="brand-sub">VAULT V3</div></div></div>
     <nav class="nav">
       <button class="nav-item active"><span>⌂</span>Dashboard</button>
       <button class="nav-item"><span>◎</span>Accounts</button>
@@ -24,7 +24,7 @@
       <button id="navSettings" class="nav-item"><span>⚙</span>Settings</button>
     </nav>
     <div class="sidebar-spacer"></div>
-    <div class="secure-card"><div class="secure-icon">⚓</div><div><strong>Encrypted & Private</strong><p>Vault dienkripsi langsung di perangkat.</p></div></div>
+    <div class="secure-card"><div class="secure-icon">🗡</div><div><strong>Encrypted & Private</strong><p>Vault dienkripsi langsung di perangkat.</p></div></div>
     <div class="sidebar-footer"><span>EXAUDDD Vault</span><span>v3.0</span></div>
   </aside>
 
@@ -37,14 +37,14 @@
     <main class="content">
       <section id="unlockView" class="unlock-wrap">
         <div class="unlock-card">
-          <div class="unlock-logo">☀</div><div class="eyebrow">EXAUDDD VAULT</div><h1>Private Account Database</h1><p>Masukkan master password untuk membuka vault terenkripsi.</p>
+          <div class="unlock-logo">⚔</div><div class="eyebrow">EXAUDDD VAULT</div><h1>Private Account Database</h1><p>Masukkan master password untuk membuka vault terenkripsi.</p>
           <form id="unlockForm" class="unlock-form"><label>Master Password</label><div class="password-row"><input id="masterPassword" type="password" minlength="8" required placeholder="Minimal 8 karakter"><button id="toggleMaster" type="button" class="secondary">Show</button></div><button type="submit" class="primary full">Unlock / Buat Vault</button></form>
           <div class="notice">Master password tidak disimpan. Jika lupa, isi vault terenkripsi tidak dapat dipulihkan.</div>
         </div>
       </section>
 
       <section id="vaultView" class="hidden">
-        <section class="hero"><div><div class="eyebrow">CONTROL CENTER</div><h1>Welcome back, Captain!</h1><p>Kelola akun, group, backup, dan sinkronisasi dari satu dashboard.</p></div><div class="hero-actions"><button id="heroSyncBtn" class="secondary">Sync Now</button><button id="heroAddBtn" class="primary">+ Add Account</button></div></section>
+        <section class="hero"><div><div class="eyebrow">SWORDSMAN CONTROL CENTER</div><h1>Welcome back, Captain!</h1><p>Kelola akun, group, backup, dan sinkronisasi dari satu dashboard.</p></div><div class="hero-actions"><button id="heroSyncBtn" class="secondary">Sync Now</button><button id="heroAddBtn" class="primary">+ Add Account</button></div></section>
 
         <section class="stats">
           <article class="stat"><div class="stat-icon">◎</div><div><span>Total Accounts</span><strong id="statTotal">0</strong><small>Semua akun</small></div></article>
@@ -65,7 +65,7 @@
             </div>
             <div class="table-wrap"><table><thead><tr><th>Username</th><th>Password</th><th>Cookie</th><th>Status</th><th>Group</th><th>Notes</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="accountRows"></tbody></table></div>
             <div id="mobileList" class="mobile-list"></div>
-            <div id="emptyState" class="empty-state"><div class="empty-logo">☀</div><h3>Belum ada akun</h3><p>Tambahkan akun pertama untuk memulai database.</p><button id="emptyAddBtn" class="primary">+ Add Account</button></div>
+            <div id="emptyState" class="empty-state"><div class="empty-logo">⚔</div><h3>Belum ada akun</h3><p>Tambahkan akun pertama untuk memulai database.</p><button id="emptyAddBtn" class="primary">+ Add Account</button></div>
             <div class="table-footer"><span id="showingText">Showing 0 accounts</span><span>Client-side encrypted</span></div>
           </section>
 
@@ -75,7 +75,7 @@
             <section class="panel mini-panel"><div class="mini-head">Vault Status</div><div class="status-row"><span class="small-dot active"></span><strong>Unlocked</strong></div><p>Vault sedang terbuka dan dapat dikelola.</p><button id="sideLockBtn" class="secondary full small">Lock Vault</button></section>
           </aside>
         </section>
-        <footer class="footer"><div><strong>EXAUDDD VAULT V3</strong><span>Set sail. Stay encrypted.</span></div><div><span>Version 3.0.0</span><span>Encrypted locally</span></div></footer>
+        <footer class="footer"><div><strong>EXAUDDD VAULT V3</strong><span>Three blades. One vault.</span></div><div><span>Version 3.0.0</span><span>Encrypted locally</span></div></footer>
       </section>
     </main>
   </section>
