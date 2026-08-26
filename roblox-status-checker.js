@@ -4,15 +4,39 @@
 (() => {
   const CHECK_STATUSES=["Valid","Invalid","Banned","Challenge","Error"];
 
-  function ensureUi(){
-    if(document.getElementById("verifyRobloxBtn"))return;
+  function normalizeText(el){return String(el?.textContent||"").replace(/\s+/g," ").trim().toLowerCase()}
+
+  function cleanupQuickActions(){
     const quick=document.querySelector(".quick-list");
     if(!quick)return;
-    const btn=document.createElement("button");
-    btn.id="verifyRobloxBtn";btn.type="button";
-    btn.innerHTML='⌕ <span>Verify Roblox Status</span>';
-    quick.insertBefore(btn,quick.lastElementChild);
-    btn.onclick=verifyAll;
+
+    // Keep exactly one canonical Owners -> Username action.
+    const owners=[...quick.querySelectorAll("button,label")].filter(el=>normalizeText(el).includes("owners → username"));
+    const canonical=document.getElementById("ownerSplitBtn")||owners[0]||null;
+    owners.forEach(el=>{if(el!==canonical)el.remove()});
+
+    // Preferred order: Export Username -> Owners -> Verify -> Sync.
+    const exportUser=[...quick.querySelectorAll("button,label")].find(el=>normalizeText(el).includes("export username"));
+    const verify=document.getElementById("verifyRobloxBtn");
+    const sync=document.getElementById("quickSyncBtn");
+    if(exportUser&&canonical)exportUser.insertAdjacentElement("afterend",canonical);
+    if(canonical&&verify)canonical.insertAdjacentElement("afterend",verify);
+    if(verify&&sync)verify.insertAdjacentElement("afterend",sync);
+    else if(canonical&&sync)canonical.insertAdjacentElement("afterend",sync);
+  }
+
+  function ensureUi(){
+    const quick=document.querySelector(".quick-list");
+    if(!quick)return;
+    let btn=document.getElementById("verifyRobloxBtn");
+    if(!btn){
+      btn=document.createElement("button");
+      btn.id="verifyRobloxBtn";btn.type="button";
+      btn.innerHTML='⌕ <span>Verify Roblox Status</span>';
+      btn.onclick=verifyAll;
+      quick.insertBefore(btn,document.getElementById("quickSyncBtn")||null);
+    }
+    cleanupQuickActions();
   }
 
   function normalizeCookie(raw){
@@ -38,7 +62,6 @@
       if(res.status===429)return {status:"Error",detail:"Rate limited; coba lagi nanti"};
       return {status:"Error",detail:`HTTP ${res.status}`};
     }catch(err){
-      // Static GitHub Pages browsers commonly cannot attach a Cookie header cross-origin.
       return {status:"Error",detail:"Browser/CORS memblokir pemeriksaan cookie. Checker perlu backend/worker same-origin."};
     }
   }
@@ -63,10 +86,11 @@
       }
       await saveLocalAndMaybeRemote();render();
       toast(`Check selesai: ${valid} valid, ${invalid} invalid, ${errors} error.`);
-    }finally{btn.disabled=false;btn.innerHTML=original}
+    }finally{btn.disabled=false;btn.innerHTML=original;cleanupQuickActions()}
   }
 
   window.checkRobloxCookieStatus=checkCookie;
   ensureUi();
-  document.addEventListener("DOMContentLoaded",ensureUi);
+  document.addEventListener("DOMContentLoaded",ensureUi,{once:true});
+  setTimeout(cleanupQuickActions,250);
 })();
