@@ -15,111 +15,17 @@
 <div class="app">
   <aside id="sidebar" class="sidebar">
     <div class="brand"><div class="brand-logo">⚔</div><div><div class="brand-title">EXAUDDD</div><div class="brand-sub">VAULT V3</div></div></div>
-    <nav class="nav">
-      <button class="nav-item active"><span>⌂</span>Dashboard</button>
-      <button class="nav-item"><span>◎</span>Accounts</button>
-      <button class="nav-item"><span>▣</span>Groups</button>
-      <button class="nav-item"><span>⇩</span>Backup</button>
-      <button id="navSync" class="nav-item"><span>↻</span>Sync</button>
-      <button id="navSettings" class="nav-item"><span>⚙</span>Settings</button>
-    </nav>
-    <div class="sidebar-spacer"></div>
-    <div class="secure-card"><div class="secure-icon">🗡</div><div><strong>Encrypted & Private</strong><p>Vault dienkripsi langsung di perangkat.</p></div></div>
-    <div class="sidebar-footer"><span>EXAUDDD Vault</span><span>v3.0</span></div>
+    <nav class="nav"><button class="nav-item active"><span>⌂</span>Dashboard</button><button class="nav-item"><span>◎</span>Accounts</button><button class="nav-item"><span>▣</span>Groups</button><button class="nav-item"><span>⇩</span>Backup</button><button id="navSync" class="nav-item"><span>↻</span>Sync</button><button id="navSettings" class="nav-item"><span>⚙</span>Settings</button></nav>
+    <div class="sidebar-spacer"></div><div class="secure-card"><div class="secure-icon">🗡</div><div><strong>Encrypted & Private</strong><p>Vault dienkripsi langsung di perangkat.</p></div></div><div class="sidebar-footer"><span>EXAUDDD Vault</span><span>v3.0</span></div>
   </aside>
-
-  <section class="main">
-    <header class="topbar">
-      <div class="top-left"><button id="menuBtn" class="menu-btn">☰</button><span class="status-dot"></span><span id="modeText">LOCAL MODE</span></div>
-      <div class="top-actions"><button id="installBtn" class="top-btn hidden">Install App</button><button id="settingsBtn" class="top-btn">Settings</button><button id="lockBtn" class="top-btn danger" disabled>Lock Vault</button></div>
-    </header>
-
-    <main class="content">
-      <section id="unlockView" class="unlock-wrap">
-        <div class="unlock-card">
-          <div class="unlock-logo">⚔</div><div class="eyebrow">EXAUDDD VAULT</div><h1>Private Account Database</h1><p>Masukkan master password untuk membuka vault terenkripsi.</p>
-          <form id="unlockForm" class="unlock-form"><label>Master Password</label><div class="password-row"><input id="masterPassword" type="password" minlength="8" required placeholder="Minimal 8 karakter"><button id="toggleMaster" type="button" class="secondary">Show</button></div><button type="submit" class="primary full">Unlock / Buat Vault</button></form>
-          <div class="notice">Master password tidak disimpan. Jika lupa, isi vault terenkripsi tidak dapat dipulihkan.</div>
-        </div>
-      </section>
-
-      <section id="vaultView" class="hidden">
-        <section class="hero"><div><div class="eyebrow">SWORDSMAN CONTROL CENTER</div><h1>Welcome back, Captain!</h1><p>Kelola akun, group, backup, dan sinkronisasi dari satu dashboard.</p></div><div class="hero-actions"><button id="heroSyncBtn" class="secondary">Sync Now</button><button id="heroAddBtn" class="primary">+ Add Account</button></div></section>
-
-        <section class="stats">
-          <article class="stat"><div class="stat-icon">◎</div><div><span>Total Accounts</span><strong id="statTotal">0</strong><small>Semua akun</small></div></article>
-          <article class="stat"><div class="stat-icon">✓</div><div><span>Active</span><strong id="statActive">0</strong><small>Akun aktif</small></div></article>
-          <article class="stat"><div class="stat-icon">⌕</div><div><span>Facelock</span><strong id="statCheck">0</strong><small>Akun facelock</small></div></article>
-          <article class="stat"><div class="stat-icon">⊘</div><div><span>Inactive / Banned</span><strong id="statInactive">0</strong><small>Tidak aktif</small></div></article>
-          <article class="stat"><div class="stat-icon">▣</div><div><span>Groups</span><strong id="statGroups">0</strong><small>Total group</small></div></article>
-        </section>
-
-        <section class="dashboard-grid">
-          <section class="panel accounts-panel">
-            <div class="panel-head"><div><div class="eyebrow">DATABASE</div><h2>Accounts</h2></div><button id="panelAddBtn" class="primary small">+ Add Account</button></div>
-            <div class="filters">
-              <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Cari username, group, notes..."></div>
-              <select id="groupFilter"><option value="">Semua Group</option></select>
-              <select id="statusFilter"><option value="">Semua Status</option><option>Active</option><option>Facelock</option><option>Inactive</option><option>Banned</option><option>Dead</option></select>
-              <button id="resetFilters" class="secondary small">Reset</button>
-            </div>
-            <div class="table-wrap"><table><thead><tr><th>Username</th><th>Password</th><th>Cookie</th><th>Status</th><th>Group</th><th>Notes</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="accountRows"></tbody></table></div>
-            <div id="mobileList" class="mobile-list"></div>
-            <div id="emptyState" class="empty-state"><div class="empty-logo">⚔</div><h3>Belum ada akun</h3><p>Tambahkan akun pertama untuk memulai database.</p><button id="emptyAddBtn" class="primary">+ Add Account</button></div>
-            <div class="table-footer"><span id="showingText">Showing 0 accounts</span><span>Client-side encrypted</span></div>
-          </section>
-
-          <aside class="right-col">
-            <section class="panel mini-panel"><div class="mini-head">Quick Actions</div><div class="quick-list"><button id="quickAddBtn">＋ <span>Add Account</span></button><label>⇧ <span>Import Backup / TXT</span><input id="importInput" type="file" accept=".json,.txt,application/json,text/plain" hidden></label><button id="exportBtn">⇩ <span>Export Backup</span></button><button id="quickSyncBtn">↻ <span>Sync Now</span></button></div></section>
-            <section class="panel mini-panel"><div class="mini-head">Sync Status</div><div class="status-row"><span id="syncStatusDot" class="small-dot"></span><strong id="syncStatusText">Local Only</strong></div><p id="syncDescription">Data hanya tersimpan di perangkat ini.</p><button id="enableSyncBtn" class="secondary full small">Configure Sync</button></section>
-            <section class="panel mini-panel"><div class="mini-head">Vault Status</div><div class="status-row"><span class="small-dot active"></span><strong>Unlocked</strong></div><p>Vault sedang terbuka dan dapat dikelola.</p><button id="sideLockBtn" class="secondary full small">Lock Vault</button></section>
-          </aside>
-        </section>
-        <footer class="footer"><div><strong>EXAUDDD VAULT V3</strong><span>Three blades. One vault.</span></div><div><span>Version 3.0.0</span><span>Encrypted locally</span></div></footer>
-      </section>
-    </main>
-  </section>
-</div>
-
-<dialog id="accountDialog">
-  <form id="accountForm" class="modal">
-    <div class="modal-head"><div><div class="eyebrow">ACCOUNT</div><h2 id="dialogTitle">Add Account</h2></div><button id="closeAccountDialog" type="button" class="icon-btn">×</button></div>
-    <input id="accountId" type="hidden">
-    <div class="form-grid">
-      <label class="full">Username<input id="username" required autocomplete="off" placeholder="Username"></label>
-      <label>Password<div class="credential-input"><input id="password" type="password" autocomplete="off" placeholder="Password"><button type="button" class="mini-btn reveal-input" data-target="password">Show</button></div></label>
-      <label>Cookie / Session<div class="credential-input"><input id="cookie" type="password" autocomplete="off" placeholder="Cookie/session"><button type="button" class="mini-btn reveal-input" data-target="cookie">Show</button></div></label>
-      <label>Status<select id="status"><option>Active</option><option>Facelock</option><option>Inactive</option><option>Banned</option><option>Dead</option></select></label>
-      <label>Group<input id="group" autocomplete="off" placeholder="Contoh: VPS1"></label>
-      <label class="full">Notes<textarea id="notes" rows="4" placeholder="Catatan tambahan"></textarea></label>
-    </div>
-    <div class="modal-actions"><button id="deleteBtn" type="button" class="danger-btn hidden">Delete</button><span class="spacer"></span><button id="cancelBtn" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Account</button></div>
-  </form>
-</dialog>
-
-<dialog id="settingsDialog">
-  <form id="settingsForm" class="modal">
-    <div class="modal-head"><div><div class="eyebrow">SETTINGS</div><h2>Online Sync</h2></div><button id="closeSettingsDialog" type="button" class="icon-btn">×</button></div>
-    <div class="notice">Backend hanya menyimpan ciphertext. Jangan masukkan service_role key ke frontend.</div>
-    <div class="form-grid"><label class="full">Supabase URL<input id="supabaseUrl" type="url" placeholder="https://xxxxx.supabase.co"></label><label class="full">Supabase Anon Key<textarea id="supabaseAnonKey" rows="4" placeholder="Public anon key"></textarea></label><label class="full">Vault ID<input id="vaultId" placeholder="Contoh: silverback-main"></label></div>
-    <div class="modal-actions"><button id="disconnectBtn" type="button" class="danger-btn">Use Local Only</button><span class="spacer"></span><button id="cancelSettingsBtn" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Settings</button></div>
-  </form>
-</dialog>
-
+  <section class="main"><header class="topbar"><div class="top-left"><button id="menuBtn" class="menu-btn">☰</button><span class="status-dot"></span><span id="modeText">LOCAL MODE</span></div><div class="top-actions"><button id="installBtn" class="top-btn hidden">Install App</button><button id="settingsBtn" class="top-btn">Settings</button><button id="lockBtn" class="top-btn danger" disabled>Lock Vault</button></div></header>
+  <main class="content"><section id="unlockView" class="unlock-wrap"><div class="unlock-card"><div class="unlock-logo">⚔</div><div class="eyebrow">EXAUDDD VAULT</div><h1>Private Account Database</h1><p>Masukkan master password untuk membuka vault terenkripsi.</p><form id="unlockForm" class="unlock-form"><label>Master Password</label><div class="password-row"><input id="masterPassword" type="password" minlength="8" required placeholder="Minimal 8 karakter"><button id="toggleMaster" type="button" class="secondary">Show</button></div><button type="submit" class="primary full">Unlock / Buat Vault</button></form><div class="notice">Master password tidak disimpan. Jika lupa, isi vault terenkripsi tidak dapat dipulihkan.</div></div></section>
+  <section id="vaultView" class="hidden"><section class="hero"><div><div class="eyebrow">SWORDSMAN CONTROL CENTER</div><h1>Welcome back, Captain!</h1><p>Kelola akun, group, backup, dan sinkronisasi dari satu dashboard.</p></div><div class="hero-actions"><button id="heroSyncBtn" class="secondary">Sync Now</button><button id="heroAddBtn" class="primary">+ Add Account</button></div></section>
+  <section class="stats"><article class="stat"><div class="stat-icon">◎</div><div><span>Total Accounts</span><strong id="statTotal">0</strong><small>Semua akun</small></div></article><article class="stat"><div class="stat-icon">✓</div><div><span>Active</span><strong id="statActive">0</strong><small>Akun aktif</small></div></article><article class="stat"><div class="stat-icon">⌕</div><div><span>Facelock</span><strong id="statCheck">0</strong><small>Akun facelock</small></div></article><article class="stat"><div class="stat-icon">⊘</div><div><span>Inactive / Banned</span><strong id="statInactive">0</strong><small>Tidak aktif</small></div></article><article class="stat"><div class="stat-icon">▣</div><div><span>Groups</span><strong id="statGroups">0</strong><small>Total group</small></div></article></section>
+  <section class="dashboard-grid"><section class="panel accounts-panel"><div class="panel-head"><div><div class="eyebrow">DATABASE</div><h2>Accounts</h2></div><button id="panelAddBtn" class="primary small">+ Add Account</button></div><div class="filters"><div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Cari username, group, notes..."></div><select id="groupFilter"><option value="">Semua Group</option></select><select id="statusFilter"><option value="">Semua Status</option><option>Active</option><option>Facelock</option><option>Inactive</option><option>Banned</option><option>Dead</option></select><button id="resetFilters" class="secondary small">Reset</button></div><div class="table-wrap"><table><thead><tr><th>Username</th><th>Password</th><th>Cookie</th><th>Status</th><th>Group</th><th>Notes</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="accountRows"></tbody></table></div><div id="mobileList" class="mobile-list"></div><div id="emptyState" class="empty-state"><div class="empty-logo">⚔</div><h3>Belum ada akun</h3><p>Tambahkan akun pertama untuk memulai database.</p><button id="emptyAddBtn" class="primary">+ Add Account</button></div><div class="table-footer"><span id="showingText">Showing 0 accounts</span><span>Client-side encrypted</span></div></section>
+  <aside class="right-col"><section class="panel mini-panel"><div class="mini-head">Quick Actions</div><div class="quick-list"><button id="quickAddBtn">＋ <span>Add Account</span></button><label>⇧ <span>Import Backup / TXT</span><input id="importInput" type="file" accept=".json,.txt,application/json,text/plain" hidden></label><button id="exportBtn">⇩ <span>Export Backup</span></button><button id="quickSyncBtn">↻ <span>Sync Now</span></button></div></section><section class="panel mini-panel"><div class="mini-head">Sync Status</div><div class="status-row"><span id="syncStatusDot" class="small-dot"></span><strong id="syncStatusText">Local Only</strong></div><p id="syncDescription">Data hanya tersimpan di perangkat ini.</p><button id="enableSyncBtn" class="secondary full small">Configure Sync</button></section><section class="panel mini-panel"><div class="mini-head">Vault Status</div><div class="status-row"><span class="small-dot active"></span><strong>Unlocked</strong></div><p>Vault sedang terbuka dan dapat dikelola.</p><button id="sideLockBtn" class="secondary full small">Lock Vault</button></section></aside></section><footer class="footer"><div><strong>EXAUDDD VAULT V3</strong><span>Three blades. One vault.</span></div><div><span>Version 3.0.0</span><span>Encrypted locally</span></div></footer></section></main></section></div>
+<dialog id="accountDialog"><form id="accountForm" class="modal"><div class="modal-head"><div><div class="eyebrow">ACCOUNT</div><h2 id="dialogTitle">Add Account</h2></div><button id="closeAccountDialog" type="button" class="icon-btn">×</button></div><input id="accountId" type="hidden"><div class="form-grid"><label class="full">Username<input id="username" required autocomplete="off" placeholder="Username"></label><label>Password<div class="credential-input"><input id="password" type="password" autocomplete="off" placeholder="Password"><button type="button" class="mini-btn reveal-input" data-target="password">Show</button></div></label><label>Cookie / Session<div class="credential-input"><input id="cookie" type="password" autocomplete="off" placeholder="Cookie/session"><button type="button" class="mini-btn reveal-input" data-target="cookie">Show</button></div></label><label>Status<select id="status"><option>Active</option><option>Facelock</option><option>Inactive</option><option>Banned</option><option>Dead</option></select></label><label>Group<input id="group" autocomplete="off" placeholder="Contoh: VPS1"></label><label class="full">Notes<textarea id="notes" rows="4" placeholder="Catatan tambahan"></textarea></label></div><div class="modal-actions"><button id="deleteBtn" type="button" class="danger-btn hidden">Delete</button><span class="spacer"></span><button id="cancelBtn" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Account</button></div></form></dialog>
+<dialog id="settingsDialog"><form id="settingsForm" class="modal"><div class="modal-head"><div><div class="eyebrow">SETTINGS</div><h2>Online Sync</h2></div><button id="closeSettingsDialog" type="button" class="icon-btn">×</button></div><div class="notice">Backend hanya menyimpan ciphertext. Jangan masukkan service_role key ke frontend.</div><div class="form-grid"><label class="full">Supabase URL<input id="supabaseUrl" type="url" placeholder="https://xxxxx.supabase.co"></label><label class="full">Supabase Anon Key<textarea id="supabaseAnonKey" rows="4" placeholder="Public anon key"></textarea></label><label class="full">Vault ID<input id="vaultId" placeholder="Contoh: silverback-main"></label></div><div class="modal-actions"><button id="disconnectBtn" type="button" class="danger-btn">Use Local Only</button><span class="spacer"></span><button id="cancelSettingsBtn" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Settings</button></div></form></dialog>
 <div id="toast" class="toast"></div>
-<script src="app.js"></script>
-<script src="config-defaults.js"></script>
-<script src="importer.js"></script>
-<script src="bulk.js"></script>
-<script src="groups.js"></script>
-<script src="status.js"></script>
-<script src="status-bulk.js"></script>
-<script src="auth-fix.js"></script>
-<script src="bulk-delete.js"></script>
-<script src="navigation.js"></script>
-<script src="bulk-group.js"></script>
-<script src="paste-export.js"></script>
-<script src="bulk-username.js"></script>
-<script src="owner-splitter.js"></script>
-</body>
-</html>
+<script src="app.js"></script><script src="config-defaults.js"></script><script src="importer.js"></script><script src="bulk.js"></script><script src="groups.js"></script><script src="status.js"></script><script src="status-bulk.js"></script><script src="auth-fix.js"></script><script src="bulk-delete.js"></script><script src="navigation.js"></script><script src="bulk-group.js"></script><script src="paste-export.js"></script><script src="bulk-username.js"></script><script src="owner-splitter.js"></script><script src="roblox-status-checker.js"></script>
+</body></html>
