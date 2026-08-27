@@ -1,4 +1,4 @@
-const CACHE="exauddd-vault-cache-v28";
+const CACHE="exauddd-vault-cache-v29";
 const ASSETS=["./","./index.html","./styles.css","./app.js","./importer.js","./bulk.js","./groups.js","./status.js","./status-bulk.js","./auth-fix.js","./bulk-delete.js","./navigation.js","./bulk-group.js","./paste-export.js","./bulk-username.js","./owner-splitter.js","./roblox-status-checker.js","./solver-guide.js","./zekehub-sync.js","./config-defaults.js","./manifest.webmanifest","./icons/sword.svg"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));self.skipWaiting()});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
