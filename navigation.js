@@ -1,4 +1,4 @@
-// Silverback Vault V3 - sidebar navigation helpers
+// EXAUDDD Vault V3 - sidebar navigation helpers
 (() => {
   function navButton(name){return [...document.querySelectorAll('.nav-item')].find(b=>b.textContent.trim().endsWith(name))}
   function setActive(btn){document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b===btn))}
@@ -19,7 +19,11 @@
       });
     }
   }
-  bind();
+  function loadZekeHubPanel(){
+    if(document.querySelector('script[data-zekehub-panel]'))return;
+    const s=document.createElement('script');s.src='zekehub-sync.js';s.dataset.zekehubPanel='1';document.body.appendChild(s);
+  }
+  bind();loadZekeHubPanel();
   const baseRender=render;
   render=function(){baseRender();bind()};
 })();
