@@ -1,26 +1,32 @@
-/* EXAUDDD responsive sidebar collapse */
-.sidebar{position:relative}
-.sidebar-toggle{position:absolute;top:50%;right:-15px;transform:translateY(-50%);z-index:60;width:30px;height:48px;border:1px solid #2b6b3e;border-left:0;border-radius:0 10px 10px 0;background:#0a130d;color:#7cff7a;display:grid;place-items:center;font:600 18px/1 "Inter",sans-serif;box-shadow:6px 0 18px rgba(0,0,0,.28);cursor:pointer}
+/* EXAUDDD responsive sidebar — compact rail, no clipped branding */
+.sidebar{position:relative;transition:width .22s ease,padding .22s ease}
+.sidebar-toggle{position:absolute;top:50%;right:-13px;transform:translateY(-50%);z-index:60;width:26px;height:46px;border:1px solid #2b6b3e;border-radius:8px;background:#0a130d;color:#7cff7a;display:grid;place-items:center;font:600 17px/1 "Inter",sans-serif;box-shadow:0 6px 18px rgba(0,0,0,.35);cursor:pointer}
 .sidebar-toggle:hover{background:#102116;border-color:#5cff70}
-.sidebar-collapsed .sidebar{width:72px;padding-left:10px;padding-right:10px}
-.sidebar-collapsed .app{grid-template-columns:72px 1fr}
-.sidebar-collapsed .brand>div:last-child,.sidebar-collapsed .nav-item{font-size:0}
-.sidebar-collapsed .nav-item{justify-content:center;padding:12px 8px;gap:0}
+
+/* Desktop/tablet: collapsed becomes a clean 76px icon rail. */
+.sidebar-collapsed .app{grid-template-columns:76px 1fr}
+.sidebar-collapsed .sidebar{width:76px;padding:18px 10px;overflow:visible}
+.sidebar-collapsed .brand{justify-content:center;padding:2px 0 20px}
+.sidebar-collapsed .brand-logo{width:42px;height:42px;flex:0 0 42px}
+.sidebar-collapsed .brand>div:last-child{display:none}
+.sidebar-collapsed .nav-item{justify-content:center;padding:12px 8px;gap:0;font-size:0;min-height:44px}
 .sidebar-collapsed .nav-item span{font-size:16px;width:auto}
 .sidebar-collapsed .secure-card,.sidebar-collapsed .sidebar-footer{display:none}
-.sidebar-collapsed .brand{justify-content:center;padding-left:0;padding-right:0}
-.sidebar-collapsed .brand-logo{width:42px;height:42px}
-.sidebar-collapsed .sidebar-toggle{right:-15px}
-@media(max-width:1000px){
-  .app{grid-template-columns:1fr!important}
-  .sidebar{position:fixed!important;left:0!important;top:0!important;width:250px!important;height:100vh;z-index:50;transition:transform .2s ease;transform:translateX(0)}
-  .sidebar-collapsed .sidebar{transform:translateX(-100%)}
-  .sidebar-collapsed .sidebar-toggle{position:fixed;left:0;right:auto;top:50%;transform:translateY(-50%);border-left:1px solid #2b6b3e;border-right:1px solid #2b6b3e;border-radius:0 10px 10px 0}
+.sidebar-collapsed .sidebar-toggle{right:-13px}
+
+/* Split screen/mobile: use an off-canvas drawer; main content always gets full width. */
+@media(max-width:850px){
+  .app,.sidebar-collapsed .app{grid-template-columns:1fr!important}
+  .sidebar{position:fixed!important;left:0!important;top:0!important;width:250px!important;height:100vh;z-index:50;transform:translateX(0);transition:transform .22s ease;overflow:visible}
+  .sidebar-collapsed .sidebar{width:250px!important;padding:22px 17px!important;transform:translateX(-100%)}
+  .sidebar-collapsed .brand{justify-content:flex-start;padding:2px 4px 24px}
+  .sidebar-collapsed .brand-logo{width:46px;height:46px;flex-basis:46px}
   .sidebar-collapsed .brand>div:last-child{display:block}
-  .sidebar-collapsed .nav-item{font-size:inherit;justify-content:flex-start;padding:12px;gap:12px}
+  .sidebar-collapsed .nav-item{justify-content:flex-start;padding:12px;gap:12px;font-size:inherit}
   .sidebar-collapsed .nav-item span{font-size:inherit;width:22px}
   .sidebar-collapsed .secure-card{display:flex}
   .sidebar-collapsed .sidebar-footer{display:flex}
-  .sidebar-collapsed .brand{justify-content:flex-start}
-  body:not(.sidebar-collapsed)::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:45;pointer-events:none}
+  .sidebar-toggle{right:-13px}
+  .sidebar-collapsed .sidebar-toggle{position:fixed;left:8px;right:auto;top:50%;transform:translateY(-50%);width:30px;height:48px;border-radius:9px}
+  body:not(.sidebar-collapsed)::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:45;pointer-events:none}
 }
