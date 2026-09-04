@@ -1,0 +1,26 @@
+/* EXAUDDD responsive sidebar collapse */
+.sidebar{position:relative}
+.sidebar-toggle{position:absolute;top:50%;right:-15px;transform:translateY(-50%);z-index:60;width:30px;height:48px;border:1px solid #2b6b3e;border-left:0;border-radius:0 10px 10px 0;background:#0a130d;color:#7cff7a;display:grid;place-items:center;font:600 18px/1 "Inter",sans-serif;box-shadow:6px 0 18px rgba(0,0,0,.28);cursor:pointer}
+.sidebar-toggle:hover{background:#102116;border-color:#5cff70}
+.sidebar-collapsed .sidebar{width:72px;padding-left:10px;padding-right:10px}
+.sidebar-collapsed .app{grid-template-columns:72px 1fr}
+.sidebar-collapsed .brand>div:last-child,.sidebar-collapsed .nav-item{font-size:0}
+.sidebar-collapsed .nav-item{justify-content:center;padding:12px 8px;gap:0}
+.sidebar-collapsed .nav-item span{font-size:16px;width:auto}
+.sidebar-collapsed .secure-card,.sidebar-collapsed .sidebar-footer{display:none}
+.sidebar-collapsed .brand{justify-content:center;padding-left:0;padding-right:0}
+.sidebar-collapsed .brand-logo{width:42px;height:42px}
+.sidebar-collapsed .sidebar-toggle{right:-15px}
+@media(max-width:1000px){
+  .app{grid-template-columns:1fr!important}
+  .sidebar{position:fixed!important;left:0!important;top:0!important;width:250px!important;height:100vh;z-index:50;transition:transform .2s ease;transform:translateX(0)}
+  .sidebar-collapsed .sidebar{transform:translateX(-100%)}
+  .sidebar-collapsed .sidebar-toggle{position:fixed;left:0;right:auto;top:50%;transform:translateY(-50%);border-left:1px solid #2b6b3e;border-right:1px solid #2b6b3e;border-radius:0 10px 10px 0}
+  .sidebar-collapsed .brand>div:last-child{display:block}
+  .sidebar-collapsed .nav-item{font-size:inherit;justify-content:flex-start;padding:12px;gap:12px}
+  .sidebar-collapsed .nav-item span{font-size:inherit;width:22px}
+  .sidebar-collapsed .secure-card{display:flex}
+  .sidebar-collapsed .sidebar-footer{display:flex}
+  .sidebar-collapsed .brand{justify-content:flex-start}
+  body:not(.sidebar-collapsed)::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:45;pointer-events:none}
+}
