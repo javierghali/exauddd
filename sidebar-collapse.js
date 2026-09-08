@@ -49,3 +49,12 @@
     }
   });
 })();
+
+// Load the optional account email fields/export extension after the main vault scripts.
+(() => {
+  if(document.querySelector('script[data-account-email-extension]'))return;
+  const s=document.createElement('script');
+  s.src='./account-email.js';
+  s.dataset.accountEmailExtension='1';
+  document.body.appendChild(s);
+})();
