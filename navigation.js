@@ -19,11 +19,15 @@
       });
     }
   }
-  function loadZekeHubPanel(){
-    if(document.querySelector('script[data-zekehub-panel]'))return;
-    const s=document.createElement('script');s.src='zekehub-sync.js';s.dataset.zekehubPanel='1';document.body.appendChild(s);
+  function loadScript(src,attr){
+    if(document.querySelector(`script[${attr}]`))return;
+    const s=document.createElement('script');s.src=src;s.setAttribute(attr,'1');document.body.appendChild(s);
   }
-  bind();loadZekeHubPanel();
+  function loadExtras(){
+    loadScript('zekehub-sync.js','data-zekehub-panel');
+    loadScript('extract-accounts.js','data-extract-accounts');
+  }
+  bind();loadExtras();
   const baseRender=render;
   render=function(){baseRender();bind()};
 })();
