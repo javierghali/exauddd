@@ -53,7 +53,6 @@
       return true;
     }catch(e){
       console.warn('[EXAUDDD] Solver Guide migration save failed:',e?.message||e);
-      // Keep legacy localStorage intact if encrypted save/sync path fails.
       return false;
     }
   }
@@ -113,7 +112,43 @@
   }
 
   if(!document.getElementById('solverGuideStyles')){
-    const s=document.createElement('style');s.id='solverGuideStyles';s.textContent='.solver-guide-modal{width:min(760px,calc(100vw - 24px))}.solver-form{display:grid;gap:9px;margin:12px 0 16px}.solver-list{display:grid;gap:10px;max-height:45vh;overflow:auto}.solver-card{padding:12px;border:1px solid #21462c;border-radius:10px;background:#07110a}.solver-card-head,.solver-line{display:flex;align-items:center;gap:8px;justify-content:space-between}.solver-line{margin-top:8px}.solver-line code{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.solver-card p{margin:9px 0 0;color:#9aa7a0;font-size:12px;white-space:pre-wrap}';document.head.appendChild(s)
+    const s=document.createElement('style');s.id='solverGuideStyles';s.textContent=`
+      #solverGuideDialog{padding:0;border:0;background:transparent;max-width:none;max-height:none;width:auto;height:auto;overflow:visible}
+      #solverGuideDialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(1.5px)}
+      .solver-guide-modal{box-sizing:border-box;width:min(680px,calc(100vw - 48px));max-width:680px;max-height:min(82vh,760px);overflow:hidden;display:flex;flex-direction:column;margin:0;border-radius:14px}
+      .solver-guide-modal .modal-head{flex:0 0 auto}
+      .solver-guide-modal .notice{flex:0 0 auto}
+      .solver-form{display:grid;grid-template-columns:1fr;gap:9px;margin:12px 0 16px;flex:0 0 auto}
+      .solver-form input,.solver-form textarea,.solver-form .credential-input,.solver-form button{width:100%;box-sizing:border-box;min-width:0}
+      .solver-form .credential-input{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch}
+      .solver-form .credential-input input{min-width:0}
+      .solver-form .credential-input .mini-btn{width:auto;min-width:58px}
+      .solver-list{display:grid;gap:10px;overflow:auto;min-height:0;max-height:none;padding-right:2px}
+      .solver-card{padding:12px;border:1px solid #21462c;border-radius:10px;background:#07110a;min-width:0}
+      .solver-card-head,.solver-line{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0}
+      .solver-line{margin-top:8px}
+      .solver-line code{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+      .solver-card p{margin:9px 0 0;color:#9aa7a0;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+      .solver-card-head button,.solver-line button{flex:0 0 auto}
+      @media(max-width:900px){
+        .solver-guide-modal{width:min(620px,calc(100vw - 36px));max-height:84vh}
+      }
+      @media(max-width:640px){
+        #solverGuideDialog{width:100%;height:100%;display:none;place-items:center;padding:12px;box-sizing:border-box}
+        #solverGuideDialog[open]{display:grid}
+        .solver-guide-modal{width:100%;max-width:none;max-height:calc(100vh - 24px);border-radius:12px}
+        .solver-guide-modal .notice{font-size:10px;line-height:1.45}
+        .solver-card-head{align-items:flex-start}
+        .solver-line{align-items:stretch;flex-wrap:wrap}
+        .solver-line code{flex:1 1 100%;white-space:normal;overflow-wrap:anywhere}
+        .solver-line button{flex:1 1 auto}
+      }
+      @media(max-height:700px){
+        .solver-guide-modal{max-height:calc(100vh - 28px)}
+        .solver-form{gap:7px;margin:8px 0 10px}
+        .solver-form textarea{min-height:64px;max-height:90px}
+      }
+    `;document.head.appendChild(s)
   }
 
   const old=window.render;
