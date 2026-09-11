@@ -91,15 +91,15 @@
     if (!document.getElementById('ownerSplitDialog')) {
       const d = document.createElement('dialog'); d.id = 'ownerSplitDialog';
       d.innerHTML = `<div class="modal owner-split-modal">
-        <div class="modal-head"><div><div class="eyebrow">USERNAME TOOL</div><h2>Owners → Username</h2></div><button id="ownerSplitClose" class="icon-btn" type="button">×</button></div>
-        <div id="ownerSplitSummary" class="notice">Pilih file owners ZekeHub.</div>
+        <div class="modal-head"><div><div class="eyebrow">SPLITTER</div><h2>Owners → Username</h2></div><button id="ownerSplitClose" class="icon-btn" type="button">×</button></div>
+        <div id="ownerSplitSummary" class="notice">Pilih satu atau beberapa file owners ZekeHub. Splitter akan mencari kolom Username, menggabungkan semua file, lalu menghapus duplicate secara otomatis.</div>
+        <div class="owner-file-picker"><button id="ownerSplitChoose" class="secondary" type="button">Pilih File</button><span id="ownerSplitPickerText">Tidak ada file yang dipilih</span></div>
         <div id="ownerSplitFiles" class="owner-file-list"></div>
-        <textarea id="ownerSplitOutput" rows="12" readonly spellcheck="false" placeholder="Username hasil ekstraksi akan muncul di sini..."></textarea>
+        <textarea id="ownerSplitOutput" rows="12" readonly spellcheck="false" placeholder="Username hasil splitter akan muncul di sini..."></textarea>
         <div class="modal-actions owner-split-actions">
-          <button id="ownerSplitChoose" class="secondary" type="button">+ Tambah File</button>
-          <span class="spacer"></span>
           <button id="ownerSplitCopy" class="secondary" type="button">Copy Username</button>
           <button id="ownerSplitCsv" class="secondary" type="button">Download CSV</button>
+          <span class="spacer"></span>
           <button id="ownerSplitTxt" class="primary" type="button">Download TXT</button>
         </div>
       </div>`;
@@ -129,7 +129,37 @@
 
     if (!document.getElementById('ownerSplitStyles')) {
       const s = document.createElement('style'); s.id = 'ownerSplitStyles';
-      s.textContent = `.owner-split-modal{width:min(820px,calc(100vw - 24px))}.owner-split-modal textarea{width:100%;min-height:240px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.owner-file-list{display:grid;gap:6px;margin:10px 0 12px;max-height:150px;overflow:auto}.owner-file-row{display:flex;justify-content:space-between;gap:14px;padding:8px 10px;border:1px solid #30363d;border-radius:9px;font-size:12px}.owner-file-row span:last-child{color:#9aa3ab}.owner-split-actions{flex-wrap:wrap}`;
+      s.textContent = `
+        #ownerSplitDialog{padding:0;border:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;margin:0;overflow:hidden;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        #ownerSplitDialog[open]{display:grid;place-items:center}
+        #ownerSplitDialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(1.5px)}
+        .owner-split-modal{box-sizing:border-box;width:min(760px,calc(100vw - 56px));max-width:760px;max-height:calc(100vh - 72px);display:flex;flex-direction:column;overflow:hidden;margin:0;border-radius:14px;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .owner-split-modal .modal-head,.owner-split-modal .notice,.owner-file-picker,.owner-split-actions{flex:0 0 auto}
+        .owner-file-picker{display:flex;align-items:center;gap:10px;margin:10px 0 0;padding:8px;border:1px solid #21462c;border-radius:10px;background:#07110a;min-width:0}
+        .owner-file-picker button{flex:0 0 auto}
+        #ownerSplitPickerText{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#aab7ae;font-size:12px}
+        .owner-split-modal textarea{width:100%;min-height:220px;max-height:42vh;resize:vertical;box-sizing:border-box;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin-top:10px}
+        .owner-file-list{display:grid;gap:6px;margin:10px 0 0;max-height:130px;overflow:auto;min-height:0}
+        .owner-file-row{display:flex;justify-content:space-between;gap:14px;padding:8px 10px;border:1px solid #21462c;border-radius:9px;font-size:12px;min-width:0;background:#07110a}
+        .owner-file-row span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .owner-file-row span:last-child{color:#9aa3ab;flex:0 0 auto}
+        .owner-split-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+        .owner-split-actions .spacer{flex:1}
+        @media(max-width:700px){
+          #ownerSplitDialog{padding:12px;box-sizing:border-box}
+          .owner-split-modal{width:100%;max-width:none;max-height:calc(100vh - 24px);border-radius:12px}
+          .owner-split-modal textarea{min-height:180px;max-height:38vh}
+          .owner-split-actions button{flex:1 1 45%}
+          .owner-split-actions .spacer{display:none}
+          .owner-file-picker{align-items:stretch;flex-direction:column}
+          #ownerSplitPickerText{white-space:normal;overflow-wrap:anywhere}
+        }
+        @media(max-height:700px){
+          .owner-split-modal{max-height:calc(100vh - 24px)}
+          .owner-split-modal textarea{min-height:150px;max-height:32vh}
+          .owner-file-list{max-height:90px}
+        }
+      `;
       document.head.appendChild(s);
     }
   }
@@ -141,6 +171,8 @@
     const summary = d.querySelector('#ownerSplitSummary');
     const listEl = d.querySelector('#ownerSplitFiles');
     const out = d.querySelector('#ownerSplitOutput');
+    const pickerText = d.querySelector('#ownerSplitPickerText');
+    if (pickerText) pickerText.textContent = files.length === 1 ? files[0].name : `${files.length} file dipilih`;
     summary.textContent = `Memproses ${files.length} file...`; listEl.innerHTML = ''; out.value = '';
     if (!d.open) d.showModal();
 
