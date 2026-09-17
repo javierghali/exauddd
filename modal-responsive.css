@@ -1,0 +1,17 @@
+/* EXAUDDD unified responsive modal system */
+dialog{box-sizing:border-box!important;padding:0!important;border:0!important;background:transparent!important;border-radius:0!important;width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;overflow:hidden!important}
+dialog::backdrop{background:rgba(0,0,0,.78)!important;backdrop-filter:blur(1px)}
+dialog>.modal,dialog>form.modal,dialog .modal:first-child{box-sizing:border-box;position:fixed!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;width:min(1040px,92vw)!important;max-width:92vw!important;max-height:90dvh!important;overflow:auto!important;padding:24px!important;border-radius:18px!important;background:#0c130f;color:#f1fbf3;-webkit-overflow-scrolling:touch}
+dialog .modal-head{position:sticky;top:-24px;z-index:8;background:#0c130f;padding:2px 0 12px;margin-bottom:12px}
+dialog .modal-head h2{font-size:22px;line-height:1.2}
+dialog .icon-btn{min-width:42px;min-height:42px;display:grid;place-items:center;flex:0 0 auto}
+dialog input,dialog select,dialog textarea{font-size:14px;line-height:1.45;min-height:42px}
+dialog textarea{resize:vertical;min-height:120px}
+dialog .notice{font-size:11px;line-height:1.5}
+dialog .modal-actions{position:sticky;bottom:-24px;z-index:8;background:#0c130f;padding:14px 0 2px;margin-top:16px;display:flex;gap:9px;flex-wrap:wrap}
+dialog .primary,dialog .secondary,dialog .danger-btn{min-height:42px}
+/* Also normalize dynamically-created tool dialogs that use custom wrappers. */
+dialog>[class*="modal"]{box-sizing:border-box}
+@media(max-width:850px){dialog>.modal,dialog>form.modal,dialog .modal:first-child{width:94vw!important;max-width:94vw!important;max-height:92dvh!important;padding:18px!important;border-radius:15px!important}dialog .modal-head{top:-18px}dialog .modal-actions{bottom:-18px}.form-grid{grid-template-columns:1fr!important}.form-grid .full{grid-column:auto!important}}
+@media(max-width:560px){dialog>.modal,dialog>form.modal,dialog .modal:first-child{width:96vw!important;max-width:96vw!important;max-height:94dvh!important;padding:14px!important;border-radius:13px!important}dialog .modal-head{top:-14px}dialog .modal-actions{bottom:-14px}dialog .modal-head h2{font-size:19px}dialog input,dialog select,dialog textarea{font-size:14px}.modal-actions .spacer{display:none}.modal-actions button{flex:1 1 auto}}
+@media(orientation:landscape) and (max-height:650px){dialog>.modal,dialog>form.modal,dialog .modal:first-child{width:94vw!important;max-width:94vw!important;max-height:94dvh!important;padding:16px!important}dialog .modal-head{top:-16px}dialog .modal-actions{bottom:-16px}dialog textarea{min-height:100px}}
